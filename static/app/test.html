@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>测试页面</title>
+    <meta name="author" content="renyun,(ry.work@foxmail.com)">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no,viewport-fit=cover">
+    <meta name="author" content="renyun (ry.work@foxmail.com)">
+    <meta name="keywords" content="创业项目,寻找投资人,投融资平台，清科项目工场,清科资本,清科集团,项目工场,投融资,创投,投融资对接,创业项目融资">
+    <meta name="description" content="项目工场是清科集团旗下的投融资信息对接服务平台,为投资机构、投资人、创业者提供投资融资对接服务，包括创业项目库,投资机构库,投资人库,FA库,投资行业最新资讯,每天发布优质的创业项目,解决投资者和创业者快速匹配问题的平台。">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <!--  Meta for Smart App Banner -->
+    <meta name="apple-itunes-app" content="app-id=1057083949">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <link rel="icon" href="http://m.pemarket.com.cn/static/favicon.ico">
+    <link rel="stylesheet" href="./css/common.css">
+    <style>
+      .wrapper{font-size: 15px;text-align: center;padding: 20px;}.wrapper p {font-size:14px;width: 70%;margin-bottom: 20px;background: #ffc131;border-radius: 4px;padding: 10px 0;display: inline-block;}.wrapper .items {color: #faad14;line-height: 30px;}h1 {color: #f5222d;line-height: 25px;}
+      .desc{box-sizing:border-box;margin:0;padding:8px 15px;color:rgba(0,0,0,.65);font-size:14px;font-variant:tabular-nums;line-height:1.5;list-style:none;-webkit-font-feature-settings:"tnum";font-feature-settings:"tnum";position:relative;word-wrap:break-word;border-radius:4px;margin-bottom:15px;background-color:#f6ffed;border:1px solid #b7eb8f;text-align:left}
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <p id="share" @click="changeShare">修改微信分享参数</p>
+        <p id="share" @click="callAndroid">测试调用Android方法</p>
+        <p id="share" @click="callPreviewImage">微信预览图片</p>
+        <div class="desc">{{ uaString }}</div>
+        <div class="desc">approotStr: {{ approotStr }}</div>
+        <div class="items" v-for="(value, name) in deviceObj">
+            {{ name }}: {{ value }}
+        </div>
+        <hr>
+        <div class="items" v-for="widthItem in widthObj">
+          {{ widthItem.name }}: {{ widthItem.value }}
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+    <script src="http://cdn.pemarket.com.cn/jquery3.4.1.min.js"></script>
+    <script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
+    <script src="./js/base.js"></script>
+    <!-- vConsole 调试 -->
+    <script src="https://cdn.jsdelivr.net/npm/vconsole@3.3.0/dist/vconsole.min.js"></script>
+    <script>
+      function computedRem() {
+            var deviceWidth = document.documentElement.clientWidth;
+            if (deviceWidth > 750) {
+                deviceWidth = 750;
+            }
+            if (deviceWidth < 320) {
+                deviceWidth = 320;
+            }
+            document.documentElement.style.fontSize = deviceWidth / 7.5 + 'px';
+        }
+        window.onresize = computedRem;
+        computedRem();
+      var vConsole = new VConsole();
+      console.log('html font-size:' + document.documentElement.style.fontSize)
+      console.log('window.getComputedStyle font-size:' + window.getComputedStyle(document.documentElement)['font-size'])
+    </script>
+    <script>
+      var appEle = new Vue({
+        el: '.wrapper',
+        data: {
+          uaString: window.navigator.userAgent,
+          approotStr: '',
+          widthObj: [],
+          deviceObj: {
+            isClient: device.isClient(),
+            isIOS: device.isIOS(),
+            isAndroid: device.isAndroid(),
+            isUCBrowser: device.isUCBrowser(),
+            isQQBrowser: device.isQQBrowser(),
+            isWeiBo: device.isWeiBo(),
+            isWeixin: device.isWeixin(),
+            isAlipay: device.isAlipay(),
+            isPC: device.isPC(),
+            qqBrowserVersion: device.qqBrowserVersion(),
+            ucBrowserVersion: device.ucBrowserVersion()
+          }
+        },
+        mounted () {
+          this.widthObj.push({name: 'document.documentElement.clientWidth', value: document.documentElement.clientWidth})
+          this.widthObj.push({name: 'document.body.clientWidth', value: document.body.clientWidth})
+          this.widthObj.push({name: 'window.innerWidth', value: window.innerWidth})
+          this.widthObj.push({name: 'document.documentElement.getBoundingClientRect().width', value: document.documentElement.getBoundingClientRect().width})
+          pemShare({
+            title: '标题',
+            content: '这是描述'
+          })
+        },
+        methods: {
+          changeShare: function () {
+            pemShare({
+              title: '这是修改的标题😍😍',
+              timelineTitle: '这是修改的标题😍😍-朋友圈',
+              content: '这是修改的标内容哦,我爱李解放速冻机发哦',
+              imgUrl: 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2708216596,905266878&fm=26&gp=0.jpg'
+            })
+            alert('change wechat share')
+          },
+          callAndroid () {
+            this.approotStr = window.approot + ''
+            if (window.approot) {
+              this.approotStr += `\n dataurl:${window.approot.getImageUrlAddr()}`
+              this.approotStr += `\n severurl:${window.approot.getBaseServerAddr()}`
+            }
+          },
+          callPreviewImage () {
+            wx.previewImage({
+              current: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2546396374,2675139211&fm=26&gp=0.jpg', // 当前显示图片的http链接
+              urls: ['https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2546396374,2675139211&fm=26&gp=0.jpg', 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2895959903,1290626901&fm=26&gp=0.jpg', 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2979949742,666641828&fm=26&gp=0.jpg'] // 需要预览的图片http链接列表
+            });
+          }
+        }
+      });
+
+    </script>
+</body>
+</html>

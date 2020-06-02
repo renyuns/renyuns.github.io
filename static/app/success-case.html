@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>成功案例</title>
+    <meta name="author" content="renyun,(ry.work@foxmail.com)">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no,viewport-fit=cover">
+    <meta name="author" content="renyun (ry.work@foxmail.com)">
+    <meta name="keywords" content="创业项目,寻找投资人,投融资平台，清科项目工场,清科资本,清科集团,项目工场,投融资,创投,投融资对接,创业项目融资">
+    <meta name="description" content="项目工场是清科集团旗下的投融资信息对接服务平台,为投资机构、投资人、创业者提供投资融资对接服务，包括创业项目库,投资机构库,投资人库,FA库,投资行业最新资讯,每天发布优质的创业项目,解决投资者和创业者快速匹配问题的平台。">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <!--  Meta for Smart App Banner -->
+    <meta name="apple-itunes-app" content="app-id=1057083949">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <link rel="icon" href="http://m.pemarket.com.cn/static/favicon.ico">
+    <link rel="stylesheet" href="./css/common.css">
+    <style>
+       .container{max-width:750px;margin:0 auto;box-sizing:border-box;padding:25px 15px 50px;overflow:hidden;}.container .title{font-size:16px;font-weight:bold;color:#41403e;line-height:26px;padding-bottom:10px;}.container .bar{font-size:12px;color:#a7a5a3;}.container .bar .report{display:inline-block;font-size:11px;color:#ffc133;padding:1px 3px;margin-right:7px;border:1px solid #ffc133;border-radius:1px;transform:scale(0.9);}.container .bar .time{display:inline-block;padding-left:10px;}.container .abstract{background:#f6f6f6;padding:11px 9px;margin-top:19px;font-size:13px;line-height:22px;color:#474646;letter-spacing:0.26px;}.container .content{padding-top:20px;font-size:14px;line-height:26px;color:#585755;}
+       .container img{display:block;margin:0 auto;max-width:100%;}
+    </style>
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <div class="container">
+            <div class="title"></div>
+            <div class="bar">
+              <span class="type"></span>
+              <span class="time"></span>
+            </div>
+            <div class="content"></div>
+          </div>
+    </div>
+    <script src="http://cdn.pemarket.com.cn/jquery3.4.1.min.js"></script>
+    <script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
+    <script src="./js/base.js"></script>
+    <script>
+        $.ajax({
+                type : "POST",
+                contentType: 'application/json',
+                url :  window.location.origin + '/api/index/getIndexCaseDetail',
+                dataType: 'json',
+                data: JSON.stringify({id: getUrlParam('id')}),
+                success : function(data) {
+                    var result = data || {};
+                    $('.title').text(result.title);
+                    if (result.from) {
+                        $('.type').text('来源: ' + result.from);
+                    } else {
+                        $('.type').hide();
+                    }
+                    $('.time').text(result.date);
+                    $('.content').html(result.content);
+                },
+                error: function(xhr, status, error) {
+                    //alert(status);
+                    //alert(xhr.responseText);
+                }
+            });
+    </script>
+</body>
+</html>

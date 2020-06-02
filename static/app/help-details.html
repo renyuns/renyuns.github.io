@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>帮助中心</title>
+    <meta name="author" content="renyun,(ry.work@foxmail.com)">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no,viewport-fit=cover">
+    <meta name="author" content="renyun (ry.work@foxmail.com)">
+    <meta name="keywords" content="创业项目,寻找投资人,投融资平台，清科项目工场,清科资本,清科集团,项目工场,投融资,创投,投融资对接,创业项目融资">
+    <meta name="description" content="项目工场是清科集团旗下的投融资信息对接服务平台,为投资机构、投资人、创业者提供投资融资对接服务，包括创业项目库,投资机构库,投资人库,FA库,投资行业最新资讯,每天发布优质的创业项目,解决投资者和创业者快速匹配问题的平台。">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <!--  Meta for Smart App Banner -->
+    <meta name="apple-itunes-app" content="app-id=1057083949">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <link rel="icon" href="http://m.pemarket.com.cn/static/favicon.ico">
+    <link rel="stylesheet" href="./css/common.css">
+    <style>
+        .wrap{max-width:750px;margin:0 auto;box-sizing:border-box;padding:0 15px 50px 15px;line-height:22px;background-color:#fff;}.wrap .help-content,.wrap p{font-size:14px;color: #585755;word-break:break-all;}.wrap b,.wrap strong,.wrap h1,.wrap h2,.wrap h3,.wrap h4,.wrap h5,.wrap h6{font-weight: bold;}
+        .wrap img{display:block;margin:0 auto;max-width:100%;}
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="help-content"></div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/zepto@1.2.0/dist/zepto.min.js"></script>
+    <script src="./js/base.js"></script>
+    <script>
+        $.ajax({
+                type : "POST",
+                contentType: 'application/json',
+                url :  window.location.origin + '/wap/help/getHelpDetail',
+                dataType: 'json',
+                data: JSON.stringify({id: getUrlParam('id')}),
+                success : function(data) {
+                    var result = data.resultList || {};
+                    document.title = result.title || '帮助中心'
+                    $('.help-content').html(result.content || '');
+                },
+                error: function(xhr, status, error) {
+                    //alert(status);
+                    //alert(xhr.responseText);
+                }
+            });
+    </script>
+</body>
+</html>
